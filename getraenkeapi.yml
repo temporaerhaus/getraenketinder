@@ -1,0 +1,140 @@
+openapi: '3.0.3'
+info:
+  title: Getränketinder
+  version: '1.0'
+servers:
+  - url: https://api.server.test/v1
+paths:
+  /getraenk:
+    put:
+      description: Create new getraenk that can be tindered
+      tags:
+        - getraenk
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Getraenk'
+              default:
+                no_likes: 0
+                no_dislikes: 0
+                no_superlikes: 0
+      responses:
+        201:
+          description: New getraenk created succesfully
+        400:
+          description: Invalid request
+    get:
+      description: Get a list of all getraenks
+      tags:
+        - getraenk
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetraenkeList'
+    
+  /getraenk/{uuid}:
+    get:
+      description: Get a the getraenks
+      tags:
+        - getraenk
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetraenkeList'
+    patch:
+      description: Update a getraenk
+      tags:
+        - getraenk
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Getraenk'
+      responses:
+        200:
+          description: getraenk updated succesfully
+        400:
+          description: Invalid request
+  /getraenk/{uuid}/like:
+    post:
+      description: Add a like to a getraenk
+      tags:
+        - votes
+      responses:
+        201:
+          description: Like added succesfully
+        400:
+          description: Invalid request
+  /getraenk/{uuid}/dislike:
+    post:
+      description: Add a like to a getraenk
+      tags:
+        - votes
+      responses:
+        201:
+          description: Like added succesfully
+        400:
+          description: Invalid request
+  /getraenk/{uuid}/superlike:
+    post:
+      description: Add a like to a getraenk
+      tags:
+        - votes
+      responses:
+        201:
+          description: Like added succesfully
+        400:
+          description: Invalid request
+        
+components:
+  schemas:
+    Getraenk:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Name of the getraenk
+          example: Mustersprudel
+        uuid:
+          type: string
+          description: UUID of the getraenk based on the name
+        images:
+          type: array
+          description: Images of the getraenk
+          items:
+            type: string
+            format: binary
+        presentation:
+          type: string
+          description: More detail of the getraenk
+          example: The most sprudeligst Sprudel of all the getraenke-verse.
+        no_likes:
+          type: integer
+          description: Number of likes the getraenk recieved
+          example: 420
+        no_dislikes:
+          type: integer
+          description: Numberof dislikes the getraenk recieved
+          example: 69
+        no_superlikes:
+          type: integer
+          description: Numberof superlikes the getraenk recieved
+          example: 69
+    GetraenkeList:
+      type: array
+      description: List of all getraenks 
+      items:
+        $ref: '#/components/schemas/Getraenk'
+          
+    
