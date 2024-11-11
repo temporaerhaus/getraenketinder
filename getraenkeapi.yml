@@ -3,7 +3,7 @@ info:
   title: Getränketinder
   version: '1.0'
 servers:
-  - url: https://api.server.test/v1
+  - url: https://getraenketinder.fiber.garden/v1
 paths:
   /getraenk:
     put:
@@ -64,6 +64,18 @@ paths:
           description: getraenk updated succesfully
         400:
           description: Invalid request
+    delete:
+      description: Delete the getraenk
+      tags:
+        - getraenk
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetraenkeList'
+                
   /getraenk/{uuid}/like:
     post:
       description: Add a like to a getraenk
@@ -76,22 +88,22 @@ paths:
           description: Invalid request
   /getraenk/{uuid}/dislike:
     post:
-      description: Add a like to a getraenk
+      description: Add a dislike to a getraenk
       tags:
         - votes
       responses:
         201:
-          description: Like added succesfully
+          description: Dislike added succesfully
         400:
           description: Invalid request
   /getraenk/{uuid}/superlike:
     post:
-      description: Add a like to a getraenk
+      description: Add a superlike to a getraenk
       tags:
         - votes
       responses:
         201:
-          description: Like added succesfully
+          description: Superlike added succesfully
         400:
           description: Invalid request
         
@@ -136,5 +148,28 @@ components:
       description: List of all getraenks 
       items:
         $ref: '#/components/schemas/Getraenk'
-          
+    Bicture:
+      type: object
+      required:
+       - url
+      properties:
+        url:
+          description: URL of bictures S3 location
+          type: string
+        hash:
+          description: SHA256 hash of bicture
+          type: string
+        height:
+          description: height of bicture in px
+          type: integer
+        width:
+          description: width of bicture in px
+          type: integer
+        weird_background_hash:
+          description: weird background hash for happy users
+          type: string
+        mime:
+          description: MIME type of bicture
+          type: string
+        
     
