@@ -42,6 +42,13 @@ paths:
       description: Get a the getraenks
       tags:
         - getraenk
+      parameters:
+        - in: path
+          name: uuid
+          schema:
+            type: string
+          required: true
+          description: uuid of the getraenk
       responses:
         200:
           description: Success
@@ -53,6 +60,13 @@ paths:
       description: Update a getraenk
       tags:
         - getraenk
+      parameters:
+        - in: path
+          name: uuid
+          schema:
+            type: string
+          required: true
+          description: uuid of the getraenk
       requestBody:
         required: true
         content:
@@ -68,6 +82,13 @@ paths:
       description: Delete the getraenk
       tags:
         - getraenk
+      parameters:
+        - in: path
+          name: uuid
+          schema:
+            type: string
+          required: true
+          description: uuid of the getraenk
       responses:
         200:
           description: Success
@@ -81,6 +102,13 @@ paths:
       description: Add a like to a getraenk
       tags:
         - votes
+      parameters:
+        - in: path
+          name: uuid
+          schema:
+            type: string
+          required: true
+          description: uuid of the getraenk
       responses:
         201:
           description: Like added succesfully
@@ -91,6 +119,13 @@ paths:
       description: Add a dislike to a getraenk
       tags:
         - votes
+      parameters:
+        - in: path
+          name: uuid
+          schema:
+            type: string
+          required: true
+          description: uuid of the getraenk
       responses:
         201:
           description: Dislike added succesfully
@@ -101,6 +136,13 @@ paths:
       description: Add a superlike to a getraenk
       tags:
         - votes
+      parameters:
+        - in: path
+          name: uuid
+          schema:
+            type: string
+          required: true
+          description: uuid of the getraenk
       responses:
         201:
           description: Superlike added succesfully
