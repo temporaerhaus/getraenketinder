@@ -71,34 +71,35 @@ func TestPutGetraenk(t *testing.T) {
 
 	//TODO: Setup backend
 
-	//TODO: remove custom definition of types
-	type wantTarget struct {
-		body   string
-		status int
-	}
-	var tests = []struct {
-		name  string
-		input string
-		want  wantTarget
-	}{
+	var tests = []test{
 		//TODO: add proper request bodies
-		{"minimal input", "", wantTarget{"", 201}},
-		{"fully populated", "", wantTarget{"", 201}},
-		{"invalid name", "", wantTarget{"", 400}},
-		{"invalid likes", "", wantTarget{"", 400}},
-		{"invalid bics", "", wantTarget{"", 400}},
+		{"minimal input", givenData{body: ""}, wantData{status: 201}},
+		{"fully populated", givenData{body: ""}, wantData{status: 201}},
+		{"invalid name", givenData{body: ""}, wantData{status: 400}},
+		{"invalid likes", givenData{body: ""}, wantData{status: 400}},
+		{"invalid bics", givenData{body: ""}, wantData{status: 400}},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			w := httptest.NewRecorder()
-			req, _ := http.NewRequest("PUT", apiPath+"/getraenk", strings.NewReader(tt.input))
+			var reqBody io.Reader
+			if tt.input.getBody() != "" {
+				reqBody = strings.NewReader(tt.input.getBody())
+			}
+			req, _ := http.NewRequest("PUT", apiPath+"/getraenk", reqBody)
+			//add parameters to request
+			if tt.input.params != nil {
+				q := req.URL.Query()
+				for _, param := range tt.input.params {
+					q.Add(param.key, param.value)
+				}
+			}
 			router.ServeHTTP(w, req)
 			assert.Equal(t, w.Code, tt.want.status)
 			if tt.want.body != "" {
 				assert.Equal(t, w.Body.String(), tt.want.body)
 			}
-
 		})
 	}
 

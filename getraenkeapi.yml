@@ -163,6 +163,9 @@ components:
         uuid:
           type: string
           description: UUID of the getraenk based on the name
+        uid:
+          type: string
+          description: SHA256 hash of the name of the Getraenk
         images:
           type: array
           description: Images of the getraenk
@@ -210,7 +213,7 @@ components:
         weird_background_hash:
           description: weird background hash for happy users
           type: string
-        mime:
+        mime_type:
           description: MIME type of bicture
           type: string
         
