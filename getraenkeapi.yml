@@ -15,16 +15,22 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Getraenk'
+              $ref: '#/components/schemas/UploadGetraenk'
               default:
-                no_likes: 0
-                no_dislikes: 0
-                no_superlikes: 0
+                likes: 0
+                dislikes: 0
+                superlikes: 0
       responses:
         201:
           description: New getraenk created succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Getraenk'
         400:
           description: Invalid request
+        500:
+          description: Internal Server Error
     get:
       description: Get a list of all getraenks
       tags:
@@ -55,7 +61,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetraenkeList'
+                $ref: '#/components/schemas/Getraenk'
     patch:
       description: Update a getraenk
       tags:
@@ -72,10 +78,14 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/Getraenk'
+              $ref: '#/components/schemas/UploadGetraenk'
       responses:
         200:
           description: getraenk updated succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Getraenk'
         400:
           description: Invalid request
     delete:
@@ -92,10 +102,6 @@ paths:
       responses:
         200:
           description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GetraenkeList'
                 
   /getraenk/{uuid}/like:
     post:
@@ -170,21 +176,57 @@ components:
           type: array
           description: Images of the getraenk
           items:
+            $ref: '#/components/schemas/Image'
+        presentation:
+          type: string
+          description: More detail of the getraenk
+          example: The most sprudeligst Sprudel of all the getraenke-verse.
+        likes:
+          type: integer
+          description: Number of likes the getraenk recieved
+          example: 420
+        dislikes:
+          type: integer
+          description: Numberof dislikes the getraenk recieved
+          example: 69
+        superlikes:
+          type: integer
+          description: Numberof superlikes the getraenk recieved
+          example: 69
+    UploadGetraenk:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Name of the getraenk
+          example: Mustersprudel
+        uuid:
+          type: string
+          description: UUID of the getraenk based on the name
+        uid:
+          type: string
+          description: SHA256 hash of the name of the Getraenk
+        images:
+          type: array
+          description: Images of the getraenk
+          items:
             type: string
             format: binary
         presentation:
           type: string
           description: More detail of the getraenk
           example: The most sprudeligst Sprudel of all the getraenke-verse.
-        no_likes:
+        likes:
           type: integer
           description: Number of likes the getraenk recieved
           example: 420
-        no_dislikes:
+        dislikes:
           type: integer
           description: Numberof dislikes the getraenk recieved
           example: 69
-        no_superlikes:
+        superlikes:
           type: integer
           description: Numberof superlikes the getraenk recieved
           example: 69
@@ -193,7 +235,7 @@ components:
       description: List of all getraenks 
       items:
         $ref: '#/components/schemas/Getraenk'
-    Bicture:
+    Image:
       type: object
       required:
        - url
